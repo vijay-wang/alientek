@@ -1,0 +1,12 @@
+[submodule "linux-alientek"]
+	path = linux-alientek
+	url = https://github.com/vijay-wang/linux-alientek.git
+[submodule "busybox-1.29.0-alientek"]
+	path = busybox-1.29.0-alientek
+	url = https://github.com/vijay-wang/busybox-1.29.0-alientek.git
+[submodule "mfgtools-alientek"]
+	path = mfgtools-alientek
+	url = https://github.com/vijay-wang/mfgtools-alientek.git
+[submodule "uboot-alientek"]
+	path = uboot-alientek
+	url = https://github.com/vijay-wang/uboot-alientek.git
