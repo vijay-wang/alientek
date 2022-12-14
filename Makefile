@@ -5,6 +5,12 @@ visable := 1
 
 
 all: linux uboot busybox
+	mkdir output/rootfs output/uboot output/kernel -p; \
+	cp busybox-1.29.0-alientek/output/* output/rootfs -r; tar -cjvf output/rootfs/rootfs-alientek-emmc.tar.bz2 output/rootfs/*; \
+	cp linux-alientek/arch/${arch}/boot/zImage output/kernel/zImage-alientek-emmc; cp linux-alientek/arch/${arch}/boot/dts/imx6ull-alientek-emmc.dtb output/kernel; \
+	cp uboot-alientek/u-boot.imx output/uboot/u-boot-imx6ull-alientek-emmc.imx; \
+	cp output/kernel/* output/rootfs/rootfs-alientek-emmc.tar.bz2 output/uboot/u-boot-imx6ull-alientek-emmc.imx mfgtools-alientek/Profiles/Linux/OS\ Firmware/firmware/
+
 
 linux:
 	cd linux-alientek; \
@@ -33,8 +39,8 @@ busybox:
 	cp ../inittab ../fstab ../rcS etc; \
 	cd ../../
 
-clean-all: clean-linux clean-uboot clean-busybox
-
+clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
+	git clean  -df
 
 clean-linux:
 	make -C linux-alientek distclean
@@ -47,3 +53,7 @@ clean-uboot:
 clean-busybox:
 	make -C busybox-1.29.0-alientek distclean
 	cd busybox-1.29.0-alientek; git clean -df; cd ..
+
+clean-mfgtools:
+	cd mfgtools-alientek; git clean -df; cd ..
+
