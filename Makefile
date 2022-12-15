@@ -20,6 +20,11 @@ img_defconf := imx_alientek_emmc_defconfig
 uboot_defconf := mx6ull_alientek_emmc_defconfig
 busybox_defconf := defconfig
 
+define clean_submodule
+	make -C $1 distclean
+	cd $1; git clean -df; cd ..
+endef
+
 all: linux uboot busybox
 	mkdir output/rootfs output/uboot output/kernel -p; \
 	cp ${busybox_dir}/output/* output/rootfs -r; tar -cjvf output/rootfs/${rootfs} output/rootfs/*; \
@@ -59,17 +64,14 @@ clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
 	git clean  -df
 
 clean-linux:
-	make -C ${linux_dir} distclean
-	cd ${linux_dir}; git clean -df; cd ..
+	$(call clean_submodule, ${linux_dir})
 
 clean-uboot:
-	make -C ${uboot_dir} distclean
-	cd ${uboot_dir}; git clean -df; cd ..
+	$(call clean_submodule, ${uboot_dir})
 
 clean-busybox:
-	make -C ${busybox_dir} distclean
-	cd ${busybox_dir}; git clean -df; cd ..
+	$(call clean_submodule, ${busybox_dir})
 
 clean-mfgtools:
-	cd ${mfgtools_dir}; git clean -df; cd ..
+	$(call clean_submodule, ${mfgtools_dir})
 
