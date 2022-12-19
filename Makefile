@@ -20,10 +20,8 @@ img_defconf := imx_alientek_emmc_defconfig
 uboot_defconf := mx6ull_alientek_emmc_defconfig
 busybox_defconf := defconfig
 
-define clean_submodule
-	make -C $1 distclean
-	cd $1; git clean -df; cd ..
-endef
+
+include top.mk
 
 all: linux uboot busybox
 	mkdir output/rootfs output/uboot output/kernel -p; \
@@ -34,31 +32,13 @@ all: linux uboot busybox
 
 
 linux:
-	cd ${linux_dir}; \
-	make ${mk_flags} ${img_defconf}; \
-	make  all ${mk_flags}; \
-	cd ..
+	$(call mk_target, ${linux_dir}, ${mk_flags}, ${img_defconf})
 
 uboot:
-	cd ${uboot_dir}; \
-	make ${mk_flags} ${uboot_defconf}; \
-	make ${mk_flags}
-	cd ..
+	$(call mk_target, ${uboot_dir}, ${mk_flags}, ${uboot_defconf})
 
 busybox:
-	cd ${busybox_dir}; mkdir output; \
-	make ${mk_flags} ${busybox_defconf}; \
-	make ${mk_flags}; \
-	make ${mk_flags} install CONFIG_PREFIX=./output; \
-	cd output; \
-	mkdir lib dev proc mnt sys tmp root etc usr/lib -p; \
-	cp ../../${tool_chain_dir}/arm-linux-gnueabihf/libc/lib/*so* ../../${tool_chain_dir}/arm-linux-gnueabihf/libc/lib/*.a lib -d; \
-	cp ../../${tool_chain_dir}/arm-linux-gnueabihf/lib/*so* ../../${tool_chain_dir}/arm-linux-gnueabihf/lib/*.a lib -d; \
-	rm lib/ld-linux-armhf.so.3; \
-	cp ../../${tool_chain_dir}/arm-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 lib; \
-	cp ../../${tool_chain_dir}/arm-linux-gnueabihf/libc/usr/lib/*so* usr/lib -d; \
-	cp ../inittab ../fstab ../rcS etc; \
-	cd ../../
+	$(call mk_target, ${busybox_dir}, ${mk_flags}, ${busybox_defconf})
 
 clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
 	git clean  -df
