@@ -39,6 +39,7 @@ uboot:
 
 busybox:
 	$(call mk_target, ${busybox_dir}, ${mk_flags}, ${busybox_defconf})
+	$(call install_rootfs, ${mk_flags}, ${tool_chain_dir}, ${busybox_dir})
 
 clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
 	git clean  -df
