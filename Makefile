@@ -29,6 +29,7 @@ all: linux uboot busybox
 	cp ${linux_dir}/arch/${arch}/boot/zImage output/kernel/${image}; cp ${linux_dir}/arch/${arch}/boot/dts/${dtb} output/kernel; \
 	cp ${uboot_dir}/u-boot.imx output/uboot/${uboot}; \
 	cp output/kernel/* output/rootfs/${rootfs} output/uboot/${uboot} ${mfgtools_dir}/Profiles/Linux/OS\ Firmware/firmware/
+	cp output/uboot/${uboot} ${mfgtools_dir}/Profiles/Linux/OS\ Firmware/file/
 
 
 linux:
