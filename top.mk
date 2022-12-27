@@ -8,7 +8,8 @@ define install_rootfs
 	cd $3; \
 	make $1 install CONFIG_PREFIX=./output; \
 	cd output; \
-	mkdir lib dev proc mnt sys tmp root etc usr/lib -p; \
+	mkdir lib dev proc mnt sys tmp root etc usr/lib \
+        var media opt www boot /etc/init.d -p; \
 	cp ../../$(strip $2)/arm-linux-gnueabihf/libc/lib/*so* ../../$(strip $2)/arm-linux-gnueabihf/libc/lib/*.a lib -rd; \
 	cp ../../$(strip $2)/arm-linux-gnueabihf/lib/*so* ../../$(strip $2)/arm-linux-gnueabihf/lib/*.a lib -rd; \
 	rm lib/ld-linux-armhf.so.3; \
