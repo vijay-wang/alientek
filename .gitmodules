@@ -13,3 +13,6 @@
 [submodule "tool-chain-linaro-4.9.4"]
 	path = tool-chain-linaro-4.9.4
 	url = https://github.com/vijay-wang/tool-chain-linaro-4.9.4.git
+[submodule "linux-driver"]
+	path = linux-driver
+	url = https://github.com/vijay-wang/linux-driver.git
