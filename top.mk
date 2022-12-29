@@ -9,7 +9,7 @@ define install_rootfs
 	make $(1) install CONFIG_PREFIX=./output; \
 	cd output; \
 	mkdir lib lib/modules/4.1.15 dev proc mnt sys tmp root etc usr/lib \
-        var media opt www boot /etc/init.d home -p; \
+        var media opt www boot etc/init.d home -p; \
 	cp ../../$(strip $(2))/arm-linux-gnueabihf/libc/lib/*so* ../../$(strip $(2))/arm-linux-gnueabihf/libc/lib/*.a lib -rd; \
 	cp ../../$(strip $(2))/arm-linux-gnueabihf/lib/*so* ../../$(strip $(2))/arm-linux-gnueabihf/lib/*.a lib -rd; \
 	rm lib/ld-linux-armhf.so.3; \
