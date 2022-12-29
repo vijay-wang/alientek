@@ -16,7 +16,7 @@ define install_rootfs
 	cp ../../$(strip $(2))/arm-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 lib; \
 	cp ../../$(strip $(2))/arm-linux-gnueabihf/libc/usr/lib/*so* usr/lib -rd; \
 	cp ../../$(strip $(2))/arm-linux-gnueabihf/libc/usr/lib/*.a usr/lib -rd; \
-	cp ../inittab ../fstab etc; cp ../rcS etc/init.d
+	cp ../inittab ../fstab etc; cp ../rcS etc/init.d/
 endef
 
 #arg1:dir
