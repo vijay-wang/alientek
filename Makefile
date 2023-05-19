@@ -10,6 +10,7 @@ linux_dir := linux-alientek
 busybox_dir := busybox-1.29.0-alientek
 mfgtools_dir := mfgtools-alientek
 tool_chain_dir := tool-chain-linaro-4.9.4
+buildroot_dir := buildroot
 
 image := zImage-alientek-emmc
 dtb := imx6ull-alientek-emmc.dtb
@@ -24,10 +25,11 @@ busybox_defconf := defconfig
 include top.mk
 
 all: linux uboot busybox
-	mkdir output/rootfs output/uboot output/kernel -p; \
+	mkdir output/rootfs output/uboot output/kernel output/buildroot -p; \
 	cp $(busybox_dir)/output/* output/rootfs -r; tar -cjvf output/rootfs/$(rootfs) output/rootfs/*; \
 	cp $(linux_dir)/arch/$(arch)/boot/zImage output/kernel/$(image); cp $(linux_dir)/arch/$(arch)/boot/dts/$(dtb) output/kernel; \
 	cp $(uboot_dir)/u-boot.imx output/uboot/$(uboot); \
+	cp $(buildroot_dir)/rootfs.tar output/buildroot/; \
 
 
 linux:
@@ -39,6 +41,11 @@ uboot:
 busybox:
 	$(call mk_target, $(busybox_dir), $(mk_flags), $(busybox_defconf))
 	$(call install_rootfs, $(mk_flags), $(tool_chain_dir), $(busybox_dir))
+
+buildroot: FORCE
+	$(call mk_buildroot, $(buildroot_dir))
+
+
 
 clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
 	git clean  -df
@@ -55,3 +62,7 @@ clean-busybox:
 clean-mfgtools:
 	$(call clean_submodule, $(mfgtools_dir))
 
+clean-buildroot:
+	$(call clean_submodule, $(buildroot_dir))
+
+.PHONY: FORCE

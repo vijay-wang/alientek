@@ -31,3 +31,9 @@ define mk_target
 	fi; \
 	make $(2)
 endef
+
+define mk_buildroot
+	cd $(1); \
+	cp config_ok .config; \
+	make
+endef
