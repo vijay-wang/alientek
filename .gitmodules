@@ -16,3 +16,6 @@
 [submodule "linux-driver"]
 	path = linux-driver
 	url = https://github.com/vijay-wang/linux-driver.git
+[submodule "buildroot"]
+	path = buildroot
+	url = https://github.com/vijay-wang/buildroot.git
