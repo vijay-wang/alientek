@@ -26,7 +26,7 @@ include top.mk
 
 all: linux uboot busybox buildroot
 	mkdir output/rootfs output/uboot output/kernel output/buildroot output/dtb output/ramdisk -p; \
-	cp $(busybox_dir)/output/* output/rootfs -dr; \
+	#cp $(busybox_dir)/output/* output/rootfs -dr; 
 	cp $(linux_dir)/arch/$(arch)/boot/zImage output/kernel/ ; cp $(linux_dir)/arch/$(arch)/boot/dts/$(dtb) output/dtb; \
 	cp $(uboot_dir)/u-boot.bin output/uboot/ ; \
 	cp $(buildroot_dir)/output/images/rootfs.tar output/buildroot/; \
@@ -48,8 +48,7 @@ buildroot: FORCE
 
 
 clean-all: clean-linux clean-uboot clean-busybox clean-mfgtools
-	git clean  -df; \
-	rm output -r
+	git clean  -df
 
 clean-linux:
 	$(call clean_submodule, $(linux_dir))
@@ -67,31 +66,36 @@ clean-buildroot:
 	$(call clean_submodule, $(buildroot_dir))
 
 
-mk_fit: mk_fit_kernel_dtb_ramdisk mk_fit_kernel_dtb
+mk_fit: mk_fit_kernel_dtb_ramdisk mk_fit_kernel_dtb mk_fit_kernel_rf_dtb
 
 mk_fit_kernel_dtb_ramdisk: mk_ramdisk
 	cp its/kernel_fdt_ramdisk.its output/; \
 	cd output; \
-	mkimage -f kernel_fdt_ramdisk.its itb_with_ramdisk
+	mkimage -f kernel_fdt_ramdisk.its kernel_dtb_rd.img
 	
 mk_fit_kernel_dtb:
 	cp its/kernel_fdt.its output/; \
 	cd output; \
-	mkimage -f kernel_fdt.its itb
+	mkimage -f kernel_fdt.its kernel_dtb.img
+
+mk_fit_kernel_rf_dtb:
+	cp its/kernel_rf_fdt.its output/; \
+	cd output; \
+	cp ../../buildroot/output/images/rootfs.tar ./rootfs; \
+	tar -xf ./rootfs/rootfs.tar; rm ./roofs/rootfs.tar; \
+	mkimage -f kernel_rf_fdt.its kernel_rf_dtb.img
 
 mk_ramdisk:
 	cd output/ramdisk; \
 	truncate -s 4M ramdisk; \
 	mkfs.ext4 ramdisk; \
 	mkdir mnt; \
-	mount ramdisk mnt;\
-	cd mnt;\
-	cp ../../buildroot/rootfs.tar .;\
-	tar -xvf rootfs.tar; \
-	rm rootfs.tar; \
-	cd ../; \
-	umount mnt; \
-	gzip -9 ramdisk;	
-
+	sudo mount ramdisk mnt; \
+	sudo mkdir mnt/rom mnt/overlay; \
+	sudo cp ../../buildroot/output/images/rootfs.tar .; \
+	sudo tar -xf rootfs.tar -C mnt; \
+	sudo cp ../../rootfs/* mnt -r; \
+	sudo umount mnt; \
+	gzip -9 ramdisk	
 
 .PHONY: FORCE

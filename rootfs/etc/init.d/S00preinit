@@ -1,0 +1,9 @@
+mount -n /dev/mmcblk1p1 overlay/
+mkdir -p /overlay/upper /overlay/work
+mount -n -t overlay -o lowerdir=/,upperdir=/overlay/upper/,workdir=/overlay/work/ overlay /overlay
+mount -n -o noatime,move /proc/ /overlay/proc/
+pivot_root overlay/ /overlay/rom
+mount -n -o noatime,move /rom/dev/ /dev
+mount -n -o noatime,move /rom/tmp/ /tmp/
+mount -n -o noatime,move /rom/run/ /run/
+mount -n -o noatime,move /rom/overlay/ /overlay/
