@@ -6,7 +6,7 @@
 	images {
 		kernel@1 {
 			description = "alientek Linux kernel";
-			data = /incbin/("zImage");
+			data = /incbin/("kernel/zImage");
 			type = "kernel";
 			arch = "arm";
 			os = "linux";
@@ -20,7 +20,7 @@
 
 		fdt@1 {
 			description = "Flattened Device Tree blob";
-			data = /incbin/("imx6ull-alientek-emmc.dtb");
+			data = /incbin/("dtb/imx6ull-alientek-emmc.dtb");
 			type = "flat_dt";
 			arch = "arm";
 			compression = "none";

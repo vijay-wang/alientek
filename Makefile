@@ -25,8 +25,8 @@ busybox_defconf := defconfig
 include top.mk
 
 all: linux uboot busybox buildroot
-	mkdir output/rootfs output/uboot output/kernel output/buildroot output/dtb output/ramdisk-p; \
-	cp $(busybox_dir)/output/* output/rootfs -r; tar -cjvf output/rootfs/$(rootfs) output/rootfs/*; \
+	mkdir output/rootfs output/uboot output/kernel output/buildroot output/dtb output/ramdisk -p; \
+	cp $(busybox_dir)/output/* output/rootfs -dr; \
 	cp $(linux_dir)/arch/$(arch)/boot/zImage output/kernel/ ; cp $(linux_dir)/arch/$(arch)/boot/dts/$(dtb) output/dtb; \
 	cp $(uboot_dir)/u-boot.bin output/uboot/ ; \
 	cp $(buildroot_dir)/output/images/rootfs.tar output/buildroot/; \
