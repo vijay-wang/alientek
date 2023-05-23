@@ -31,7 +31,7 @@
 
 		rootfs@1 {
 			description = "Flattened Device Tree blob";
-			data = /incbin/("./rootfs/*");
+			data = /incbin/("./rootfs/rootfs.imx");
 			type = "rootfs";
 			arch = "arm";
 			compression = "none";

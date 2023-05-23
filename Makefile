@@ -72,6 +72,7 @@ mk_fit_kernel_dtb_ramdisk: mk_ramdisk
 	cp its/kernel_fdt_ramdisk.its output/; \
 	cd output; \
 	mkimage -f kernel_fdt_ramdisk.its kernel_dtb_rd.img
+	../uboot-alientek/tools/fdtgrep kernel_dtb_rd.img
 	
 mk_fit_kernel_dtb:
 	cp its/kernel_fdt.its output/; \
@@ -81,9 +82,13 @@ mk_fit_kernel_dtb:
 mk_fit_kernel_rf_dtb:
 	cp its/kernel_rf_fdt.its output/; \
 	cd output; \
-	cp ../../buildroot/output/images/rootfs.tar ./rootfs; \
-	tar -xf ./rootfs/rootfs.tar; rm ./roofs/rootfs.tar; \
-	mkimage -f kernel_rf_fdt.its kernel_rf_dtb.img
+	cp ../buildroot/output/images/rootfs.tar ./rootfs && \
+	tar -xf ./rootfs/rootfs.tar -C ./rootfs && rm ./rootfs/rootfs.tar; \
+	#mkimage -f kernel_rf_fdt.its kernel_rf_dtb.img > kernel_rf_dtb.img.dis; \
+	#grep "data =" kernel_rf_dtb.img.dis; \
+	#grep得到的address + 12字节，就是components的 start addr，得到start addr以后可以
+	#用来制作烧录脚本
+
 
 mk_ramdisk:
 	cd output/ramdisk; \
