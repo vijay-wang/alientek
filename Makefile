@@ -72,7 +72,7 @@ mk_fit_kernel_dtb_ramdisk: mk_ramdisk
 	cp its/kernel_fdt_ramdisk.its output/; \
 	cd output; \
 	mkimage -f kernel_fdt_ramdisk.its kernel_dtb_rd.img
-	../uboot-alientek/tools/fdtgrep kernel_dtb_rd.img
+	#../uboot-alientek/tools/fdtgrep kernel_dtb_rd.img
 	
 mk_fit_kernel_dtb:
 	cp its/kernel_fdt.its output/; \
