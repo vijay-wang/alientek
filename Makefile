@@ -84,7 +84,7 @@ mk_fit_kernel_rf_dtb:
 	cd output; \
 	cp ../buildroot/output/images/rootfs.tar ./rootfs && \
 	tar -xf ./rootfs/rootfs.tar -C ./rootfs && rm ./rootfs/rootfs.tar; \
-	#mkimage -f kernel_rf_fdt.its kernel_rf_dtb.img > kernel_rf_dtb.img.dis; \
+	mkimage -f kernel_rf_fdt.its kernel_rf_dtb.img 
 	#grep "data =" kernel_rf_dtb.img.dis; \
 	#grep得到的address + 12字节，就是components的 start addr，得到start addr以后可以
 	#用来制作烧录脚本
